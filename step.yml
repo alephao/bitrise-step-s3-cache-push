@@ -1,0 +1,110 @@
+title: |-
+  S3 Cache Push
+summary: |
+  Store your cache in a s3 bucket with custom keys.
+website: https://github.com/alephao/bitrise-step-s3-cache-push
+source_code_url: https://github.com/alephao/bitrise-step-s3-cache-push
+support_url: https://github.com/alephao/bitrise-step-s3-cache-push/issues
+host_os_tags:
+  - osx-10.10
+  - ubuntu-16.04
+
+type_tags:
+  - utility
+
+is_requires_admin_user: true
+is_always_run: false
+is_skippable: false
+run_if: ""
+
+deps:
+  brew:
+    - name: git
+    - name: wget
+  apt_get:
+    - name: git
+    - name: wget
+
+toolkit:
+  go:
+    package_name: github.com/alephao/bitrise-step-s3-cache-push
+
+inputs:
+  - aws_access_key_id: $AWS_ACCESS_KEY_ID
+    opts:
+      title: AWS_ACCESS_KEY_ID
+      category: AWS Access
+      is_expand: true
+      is_required: false
+
+  - aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+    opts:
+      title: AWS_SECRET_ACCESS_KEY
+      category: AWS Access
+      is_expand: true
+      is_required: false
+
+  - aws_region: $AWS_S3_REGION
+    opts:
+      title: AWS Region
+      summary: "The region on AWS. E.g.: us-east-1"
+      category: AWS Bucket
+      is_expand: true
+      is_required: true
+      value_options:
+        - us-east-1
+        - us-east-2
+        - us-west-1
+        - us-west-2
+        - ca-central-1
+        - eu-north-1
+        - eu-west-3
+        - eu-west-2
+        - eu-west-1
+        - eu-central-1
+        - eu-south-1
+        - ap-south-1
+        - ap-northeast-1
+        - ap-northeast-2
+        - ap-northeast-3
+        - ap-southeast-1
+        - ap-southeast-2
+        - ap-east-1
+        - sa-east-1
+        - cn-north-1
+        - cn-northwest-1
+        - us-gov-east-1
+        - us-gov-west-1
+        - us-gov-secret-1
+        - us-gov-topsecret-1
+        - me-south-1
+        - af-south-1
+
+  - bucket_name: $S3_BUCKET_NAME
+    opts:
+      title: Bucket Name
+      summary: The bucket name where you want to store the cache
+      category: AWS Bucket
+      is_expand: true
+      is_required: true
+
+  - key:
+    opts:
+      title: Cache key
+      summary: The key that will be used on S3 as the file key
+      description: |
+        You can use {{ checksum "path/to/file" }} to get the file's sha256 checksum.      
+        E.g.: key: carthage-{{ checksum "Cartfile.resolved" }}
+      category: Cache
+      is_expand: false
+      is_required: true
+
+  - path:
+    opts:
+      title: Cache path
+      summary: Path to file or directory to be cached. Relative to the root of the git repo.
+      description: |
+        path: ./Carthage
+      category: Cache
+      is_expand: false
+      is_required: true
