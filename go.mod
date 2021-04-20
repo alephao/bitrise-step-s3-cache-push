@@ -1,6 +1,6 @@
 module github.com/alephao/bitrise-step-s3-cache-push
 
-go 1.16
+go 1.15
 
 require (
 	github.com/aws/aws-sdk-go v1.38.21
