@@ -93,8 +93,9 @@ inputs:
       title: Cache key
       summary: The key that will be used on S3 as the file key
       description: |
-        You can use {{ checksum "path/to/file" }} to get the file's sha256 checksum.      
-        E.g.: key: carthage-{{ checksum "Cartfile.resolved" }}
+        You can use '{{ checksum path/to/file }}' to get the file's sha256 checksum.      
+        You can use '{{ branch }}' to get the name of the current branch.
+        E.g.: key: carthage-{{ branch }}-{{ checksum "Cartfile.resolved" }}
       category: Cache
       is_expand: false
       is_required: true
