@@ -40,13 +40,14 @@ func main() {
 			return
 		}
 
-		fmt.Println("Cache not found, trying to compress the folder upload.")
+		fmt.Println("Cache not found, trying to compress the folder.")
 
 		outputPath := fmt.Sprintf("%s/%s.tar.gz", tempFolderPath, bucketKey)
 		err := archiver.Archive([]string{cachePath}, outputPath)
 
 		if err != nil {
 			fmt.Printf("Failed to compress '%s'\n", cachePath)
+			fmt.Printf("Error: %s\n", err.Error())
 			failed = true
 			return
 		}
