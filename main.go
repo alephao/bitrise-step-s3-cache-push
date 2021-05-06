@@ -4,13 +4,19 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/alephao/bitrise-step-s3-cache-push/parser"
 	"github.com/mholt/archiver"
 )
 
-func GenerateBucketKey(cacheKey string) string {
-	checksumEngine := NewFileChecksumEngine()
-	keyParser := NewKeyParser(&checksumEngine)
-	return keyParser.parse(cacheKey)
+const (
+	BITRISE_GIT_BRANCH = "BITRISE_GIT_BRANCH"
+)
+
+func generateBucketKey(cacheKey string) (string, error) {
+	branch := os.Getenv(BITRISE_GIT_BRANCH)
+	functionExecuter := parser.NewCacheKeyFunctionExecuter(branch)
+	keyParser := parser.NewKeyParser(&functionExecuter)
+	return keyParser.Parse(cacheKey)
 }
 
 func main() {
@@ -30,7 +36,14 @@ func main() {
 			awsSecretAccessKey,
 			bucketName,
 		)
-		bucketKey := GenerateBucketKey(cacheKey)
+		bucketKey, err := generateBucketKey(cacheKey)
+
+		if err != nil {
+			fmt.Printf("Failed to parse cache key '%s'\n", cacheKey)
+			fmt.Printf("Error: %s\n", err.Error())
+			failed = true
+			return
+		}
 
 		fmt.Printf("Checking if cache exists for key '%s'\n", bucketKey)
 		cacheExists := s3.CacheExists(bucketKey)
@@ -43,7 +56,7 @@ func main() {
 		fmt.Println("Cache not found, trying to compress the folder.")
 
 		outputPath := fmt.Sprintf("%s/%s.tar.gz", tempFolderPath, bucketKey)
-		err := archiver.Archive([]string{cachePath}, outputPath)
+		err = archiver.Archive([]string{cachePath}, outputPath)
 
 		if err != nil {
 			fmt.Printf("Failed to compress '%s'\n", cachePath)
