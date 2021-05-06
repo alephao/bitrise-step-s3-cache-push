@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -38,7 +39,7 @@ func (a *AwsS3) CacheExists(key string) bool {
 	})
 
 	if err != nil {
-		fmt.Printf("An error occurred when hitting the cache: %s. Assuming there is no cache\n", err.Error())
+		log.Printf("An error occurred when hitting the cache: %s. Assuming there is no cache\n", err.Error())
 		return false
 	}
 

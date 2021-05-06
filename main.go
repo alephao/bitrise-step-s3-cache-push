@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/alephao/bitrise-step-s3-cache-push/parser"
@@ -39,33 +40,33 @@ func main() {
 		bucketKey, err := generateBucketKey(cacheKey)
 
 		if err != nil {
-			fmt.Printf("Failed to parse cache key '%s'\n", cacheKey)
-			fmt.Printf("Error: %s\n", err.Error())
+			log.Printf("Failed to parse cache key '%s'\n", cacheKey)
+			log.Printf("Error: %s\n", err.Error())
 			failed = true
 			return
 		}
 
-		fmt.Printf("Checking if cache exists for key '%s'\n", bucketKey)
+		log.Printf("Checking if cache exists for key '%s'\n", bucketKey)
 		cacheExists := s3.CacheExists(bucketKey)
 
 		if cacheExists {
-			fmt.Println("Cache found! Skiping...")
+			log.Println("Cache found! Skiping...")
 			return
 		}
 
-		fmt.Println("Cache not found, trying to compress the folder.")
+		log.Println("Cache not found, trying to compress the folder.")
 
 		outputPath := fmt.Sprintf("%s/%s.tar.gz", tempFolderPath, bucketKey)
 		err = archiver.Archive([]string{cachePath}, outputPath)
 
 		if err != nil {
-			fmt.Printf("Failed to compress '%s'\n", cachePath)
-			fmt.Printf("Error: %s\n", err.Error())
+			log.Printf("Failed to compress '%s'\n", cachePath)
+			log.Printf("Error: %s\n", err.Error())
 			failed = true
 			return
 		}
 
-		fmt.Println("Compression was successful, trying to upload to aws.")
+		log.Println("Compression was successful, trying to upload to aws.")
 
 		err = s3.UploadToAws(
 			bucketKey,
@@ -73,11 +74,11 @@ func main() {
 		)
 
 		if err != nil {
-			fmt.Printf("Failed to upload! Failing gracefully. Error: %s\n", err)
+			log.Printf("Failed to upload! Failing gracefully. Error: %s\n", err)
 			return
 		}
 
-		fmt.Println("Upload was successful!")
+		log.Println("Upload was successful!")
 	})
 
 	if failed {
