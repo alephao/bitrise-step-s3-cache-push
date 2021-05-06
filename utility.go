@@ -6,8 +6,16 @@ import (
 )
 
 func CreateTempFolder(f func(tempFolderPath string)) {
-	path := "~/bitrise-s3-step-push-tmp"
-	err := os.MkdirAll(path, os.ModePerm)
+	homeDir, err := os.UserHomeDir()
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	path := fmt.Sprintf("%s/bitrise-s3-step-push-tmp", homeDir)
+
+	err = os.MkdirAll(path, os.ModePerm)
 
 	if err != nil {
 		fmt.Println(err)
@@ -26,7 +34,7 @@ func CreateTempFolder(f func(tempFolderPath string)) {
 func GetEnvOrExit(key string) string {
 	value := os.Getenv(key)
 	if value == "" {
-		fmt.Println(fmt.Sprintf("Missing variable '%s'", key))
+		fmt.Printf("Missing variable '%s'\n", key)
 		os.Exit(1)
 	}
 	return value
