@@ -56,7 +56,7 @@ func main() {
 
 		log.Println("Cache not found, trying to compress the folder.")
 
-		outputPath := fmt.Sprintf("%s/%s.tar.gz", tempFolderPath, bucketKey)
+		outputPath := fmt.Sprintf("%s/%s.zip", tempFolderPath, bucketKey)
 		err = archiver.Archive([]string{cachePath}, outputPath)
 
 		if err != nil {
