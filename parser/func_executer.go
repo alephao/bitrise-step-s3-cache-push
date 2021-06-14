@@ -13,12 +13,14 @@ type ICacheKeyFunctionExecuter interface {
 }
 
 type CacheKeyFunctionExecuter struct {
-	CurrentBranch string
+	CurrentBranch        string
+	BitriseOsxStackRevId string
 }
 
-func NewCacheKeyFunctionExecuter(branch string) CacheKeyFunctionExecuter {
+func NewCacheKeyFunctionExecuter(branch, bitriseOsxStackRevId string) CacheKeyFunctionExecuter {
 	return CacheKeyFunctionExecuter{
-		CurrentBranch: branch,
+		CurrentBranch:        branch,
+		BitriseOsxStackRevId: bitriseOsxStackRevId,
 	}
 }
 
@@ -59,6 +61,18 @@ func (e *CacheKeyFunctionExecuter) checksum(args []string) (string, error) {
 	return checksumForFile(filePath)
 }
 
+func (e *CacheKeyFunctionExecuter) stackrev(args []string) (string, error) {
+	if len(args) > 0 {
+		return "", fmt.Errorf("the branch function doesn't accept any args")
+	}
+
+	if e.BitriseOsxStackRevId == "" {
+		return "", fmt.Errorf("env var BITRISE_OSX_STACK_REV_ID is not available")
+	}
+
+	return e.BitriseOsxStackRevId, nil
+}
+
 func (e *CacheKeyFunctionExecuter) Execute(funcAndArgs []string) (string, error) {
 	f := funcAndArgs[0]
 	args := funcAndArgs[1:]
@@ -68,9 +82,11 @@ func (e *CacheKeyFunctionExecuter) Execute(funcAndArgs []string) (string, error)
 		return e.branch(args)
 	case "checksum":
 		return e.checksum(args)
+	case "stackrev":
+		return e.stackrev(args)
 	}
 
-	availableFunctions := []string{"branch", "checksum"}
+	availableFunctions := []string{"branch", "checksum", "stackrev"}
 
 	return "", fmt.Errorf("unknown function named '%s'. The available functions are: %s", f, strings.Join(availableFunctions, ", "))
 }

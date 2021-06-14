@@ -10,12 +10,14 @@ import (
 )
 
 const (
-	BITRISE_GIT_BRANCH = "BITRISE_GIT_BRANCH"
+	BITRISE_GIT_BRANCH       = "BITRISE_GIT_BRANCH"
+	BITRISE_OSX_STACK_REV_ID = "BITRISE_OSX_STACK_REV_ID"
 )
 
 func generateBucketKey(cacheKey string) (string, error) {
 	branch := os.Getenv(BITRISE_GIT_BRANCH)
-	functionExecuter := parser.NewCacheKeyFunctionExecuter(branch)
+	stackrev := os.Getenv(BITRISE_OSX_STACK_REV_ID)
+	functionExecuter := parser.NewCacheKeyFunctionExecuter(branch, stackrev)
 	keyParser := parser.NewKeyParser(&functionExecuter)
 	return keyParser.Parse(cacheKey)
 }
