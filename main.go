@@ -12,6 +12,11 @@ import (
 const (
 	BITRISE_GIT_BRANCH       = "BITRISE_GIT_BRANCH"
 	BITRISE_OSX_STACK_REV_ID = "BITRISE_OSX_STACK_REV_ID"
+
+	CACHE_AWS_ACCESS_KEY_ID     = "cache_aws_access_key_id"
+	CACHE_AWS_SECRET_ACCESS_KEY = "cache_aws_secret_access_key"
+	CACHE_AWS_REGION            = "cache_aws_region"
+	CACHE_BUCKET_NAME           = "cache_bucket_name"
 )
 
 func generateBucketKey(cacheKey string) (string, error) {
@@ -23,10 +28,10 @@ func generateBucketKey(cacheKey string) (string, error) {
 }
 
 func main() {
-	awsAccessKeyId := GetEnvOrExit("aws_access_key_id")
-	awsSecretAccessKey := GetEnvOrExit("aws_secret_access_key")
-	awsRegion := GetEnvOrExit("aws_region")
-	bucketName := GetEnvOrExit("bucket_name")
+	awsAccessKeyId := GetEnvOrExit(CACHE_AWS_ACCESS_KEY_ID)
+	awsSecretAccessKey := GetEnvOrExit(CACHE_AWS_SECRET_ACCESS_KEY)
+	awsRegion := GetEnvOrExit(CACHE_AWS_REGION)
+	bucketName := GetEnvOrExit(CACHE_BUCKET_NAME)
 	cacheKey := GetEnvOrExit("key")
 	cachePath := GetEnvOrExit("path")
 

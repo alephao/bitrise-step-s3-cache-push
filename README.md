@@ -8,10 +8,10 @@ Should be used with [S3 Cache Pull](https://github.com/alephao/bitrise-step-s3-c
 
 Input|Environment Var|Description
 -|-|-
-**aws_access_key_id**|`AWS_ACCESS_KEY_ID`|Your aws access key id
-**aws_secret_access_key**|`AWS_SECRET_ACCESS_KEY`|Your aws secret access key
-**aws_region**|`AWS_S3_REGION`|The region of your S3 bucket. E.g.: `us-east-1 `
-**bucket_name**|`S3_BUCKET_NAME`|The name of your S3 bucket. E.g.: `mybucket`
+**cache_aws_access_key_id**|`CACHE_AWS_ACCESS_KEY_ID`|Your aws access key id
+**cache_aws_secret_access_key**|`CACHE_AWS_SECRET_ACCESS_KEY`|Your aws secret access key
+**cache_aws_region**|`CACHE_AWS_S3_REGION`|The region of your S3 bucket. E.g.: `us-east-1 `
+**cache_bucket_name**|`CACHE_S3_BUCKET_NAME`|The name of your S3 bucket. E.g.: `mybucket`
 **path**|-|The path to the file or folder you want to cache. E.g.: `./Carthage/Build`
 **key**|-|The key that will be used to restore the cache later. E.g.: `carthage-{{ branch }}-{{ checksum "Cartfile.resolved" }}`
 

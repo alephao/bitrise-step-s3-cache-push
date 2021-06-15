@@ -30,21 +30,21 @@ toolkit:
     package_name: github.com/alephao/bitrise-step-s3-cache-push
 
 inputs:
-  - aws_access_key_id: $AWS_ACCESS_KEY_ID
+  - cache_aws_access_key_id: $CACHE_AWS_ACCESS_KEY_ID
     opts:
       title: AWS_ACCESS_KEY_ID
       category: AWS Access
       is_expand: true
       is_required: false
 
-  - aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+  - cache_aws_secret_access_key: $CACHE_AWS_SECRET_ACCESS_KEY
     opts:
       title: AWS_SECRET_ACCESS_KEY
       category: AWS Access
       is_expand: true
       is_required: false
 
-  - aws_region: $AWS_S3_REGION
+  - cache_aws_region: $CACHE_AWS_S3_REGION
     opts:
       title: AWS Region
       summary: "The region on AWS. E.g.: us-east-1"
@@ -80,7 +80,7 @@ inputs:
         - me-south-1
         - af-south-1
 
-  - bucket_name: $S3_BUCKET_NAME
+  - cache_bucket_name: $CACHE_S3_BUCKET_NAME
     opts:
       title: Bucket Name
       summary: The bucket name where you want to store the cache
