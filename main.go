@@ -17,6 +17,8 @@ const (
 	CACHE_AWS_SECRET_ACCESS_KEY = "cache_aws_secret_access_key"
 	CACHE_AWS_REGION            = "cache_aws_region"
 	CACHE_BUCKET_NAME           = "cache_bucket_name"
+	CACHE_KEY                   = "cache_key"
+	CACHE_PATH                  = "cache_path"
 )
 
 func generateBucketKey(cacheKey string) (string, error) {
@@ -32,8 +34,8 @@ func main() {
 	awsSecretAccessKey := GetEnvOrExit(CACHE_AWS_SECRET_ACCESS_KEY)
 	awsRegion := GetEnvOrExit(CACHE_AWS_REGION)
 	bucketName := GetEnvOrExit(CACHE_BUCKET_NAME)
-	cacheKey := GetEnvOrExit("key")
-	cachePath := GetEnvOrExit("path")
+	cacheKey := GetEnvOrExit(CACHE_KEY)
+	cachePath := GetEnvOrExit(CACHE_PATH)
 
 	failed := false
 

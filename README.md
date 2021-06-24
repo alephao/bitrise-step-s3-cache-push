@@ -12,8 +12,8 @@ Input|Environment Var|Description
 **cache_aws_secret_access_key**|`CACHE_AWS_SECRET_ACCESS_KEY`|Your aws secret access key
 **cache_aws_region**|`CACHE_AWS_S3_REGION`|The region of your S3 bucket. E.g.: `us-east-1 `
 **cache_bucket_name**|`CACHE_S3_BUCKET_NAME`|The name of your S3 bucket. E.g.: `mybucket`
-**path**|-|The path to the file or folder you want to cache. E.g.: `./Carthage/Build`
-**key**|-|The key that will be used to restore the cache later. E.g.: `carthage-{{ branch }}-{{ checksum "Cartfile.resolved" }}`
+**cache_path**|-|The path to the file or folder you want to cache. E.g.: `./Carthage/Build`
+**cache_key**|-|The key that will be used to restore the cache later. E.g.: `carthage-{{ branch }}-{{ checksum "Cartfile.resolved" }}`
 
 #### Cache Key
 

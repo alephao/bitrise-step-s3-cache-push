@@ -2,6 +2,19 @@ title: |-
   S3 Cache Push
 summary: |
   Store your cache in a s3 bucket with custom keys.
+description: |
+  A step to store your cache in a s3 bucket using custom keys.
+
+  This should be used with the s3-cache-pull step to retrieve the cache.
+
+  If you want to cache multiple items, you'll need run this step multiple times.
+
+  *Bucket Access*
+  For this step to work you'll need an user in aws with programmatic access to a bucket.
+  The user should have permissions to list, get, and put objects in the bucket.
+
+  You can set the credentials using the Bitrise Secrets with the keys specified in the inputs
+  or set them directly in the inputs.
 website: https://github.com/alephao/bitrise-step-s3-cache-push
 source_code_url: https://github.com/alephao/bitrise-step-s3-cache-push
 support_url: https://github.com/alephao/bitrise-step-s3-cache-push/issues
@@ -16,15 +29,6 @@ is_requires_admin_user: true
 is_always_run: false
 is_skippable: false
 run_if: ""
-
-deps:
-  brew:
-    - name: git
-    - name: wget
-  apt_get:
-    - name: git
-    - name: wget
-
 toolkit:
   go:
     package_name: github.com/alephao/bitrise-step-s3-cache-push
@@ -35,19 +39,33 @@ inputs:
       title: AWS_ACCESS_KEY_ID
       category: AWS Access
       is_expand: true
-      is_required: false
+      is_required: true
+      is_sensitive: true
+      summary: The AWS_ACCESS_KEY_ID to access the bucket.
+      description: |
+        The access key id that matches the secret access key.
+
+        The credentials need to be from a user that has at least the following permissions
+        in the bucket specified bellow `s3:ListObjects`, `s3:PutObject`, and `s3:GetObject`.
 
   - cache_aws_secret_access_key: $CACHE_AWS_SECRET_ACCESS_KEY
     opts:
       title: AWS_SECRET_ACCESS_KEY
+      summary: The AWS_SECRET_ACCESS_KEY to access the bucket.
+      description: |
+        The secret access key that matches the access key id.
+
+        The credentials need to be from a user that has at least the following permissions
+        in the bucket specified bellow `s3:ListObjects`, `s3:PutObject`, and `s3:GetObject`.
       category: AWS Access
       is_expand: true
-      is_required: false
+      is_required: true
+      is_sensitive: true
 
   - cache_aws_region: $CACHE_AWS_S3_REGION
     opts:
       title: AWS Region
-      summary: "The region on AWS. E.g.: us-east-1"
+      summary: The region of the S3 bucket
       category: AWS Bucket
       is_expand: true
       is_required: true
@@ -83,30 +101,36 @@ inputs:
   - cache_bucket_name: $CACHE_S3_BUCKET_NAME
     opts:
       title: Bucket Name
-      summary: The bucket name where you want to store the cache
+      summary: The name of the s3 bucket where you want to store the cache
       category: AWS Bucket
       is_expand: true
       is_required: true
 
-  - key:
+  - cache_key:
     opts:
       title: Cache key
-      summary: The key that will be used on S3 as the file key
+      summary: The key that will be used on S3 as the file key. This is used to retrieve the cache with s3-cache-pull.
       description: |
-        You can use '{{ checksum path/to/file }}' to get the file's sha256 checksum.
+        The cache key can contain special values for convenience.
+
+        You can use '{{ checksum path/to/file }}' to get the file content's sha256 checksum.
         You can use '{{ branch }}' to get the name of the current branch.
         You can use '{{ stackrev }}' to get the machine's stack id.
+
         E.g.: key: {{ stackrev }}-carthage-{{ branch }}-{{ checksum "Cartfile.resolved" }}
       category: Cache
       is_expand: false
       is_required: true
 
-  - path:
+  - cache_path:
     opts:
       title: Cache path
       summary: Path to file or directory to be cached. Relative to the root of the git repo.
       description: |
-        path: ./Carthage
+        The entire folder will be compressed before sending to the S3 bucket
+
+        For instance, if you cache `/path/to/my/folder`, only "folder" will be compressed.
+        When retrieving the cachee with s3-cache-pull, you will have to use `/path/to/my/` to extract the folder there.
       category: Cache
       is_expand: false
       is_required: true

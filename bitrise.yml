@@ -32,8 +32,8 @@ workflows:
             file if you would not specify another value.
           run_if: true
           inputs:
-            - key: _{{ stackrev }}-lock-{{ checksum "_tmp/Lockfile" }}
-            - path: _tmp/Carthage
+            - cache_key: _{{ stackrev }}-lock-{{ checksum "_tmp/Lockfile" }}
+            - cache_path: _tmp/Carthage
       - script:
           inputs:
             - content: |
