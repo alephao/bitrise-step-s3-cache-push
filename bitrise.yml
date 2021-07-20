@@ -34,6 +34,10 @@ workflows:
           inputs:
             - cache_key: _{{ stackrev }}-lock-{{ checksum "_tmp/Lockfile" }}
             - cache_path: _tmp/Carthage
+            - cache_bucket_name: $CACHE_S3_BUCKET_NAME
+            - cache_aws_region: $CACHE_AWS_S3_REGION
+            - cache_aws_secret_access_key: $CACHE_AWS_SECRET_ACCESS_KEY
+            - cache_aws_access_key_id: $CACHE_AWS_ACCESS_KEY_ID
       - script:
           inputs:
             - content: |
