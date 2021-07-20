@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/alephao/bitrise-step-s3-cache-push/parser"
+	"github.com/alephao/cacheutil"
 	"github.com/mholt/archiver"
 )
 
@@ -24,8 +24,8 @@ const (
 func generateBucketKey(cacheKey string) (string, error) {
 	branch := os.Getenv(BITRISE_GIT_BRANCH)
 	stackrev := os.Getenv(BITRISE_OSX_STACK_REV_ID)
-	functionExecuter := parser.NewCacheKeyFunctionExecuter(branch, stackrev)
-	keyParser := parser.NewKeyParser(&functionExecuter)
+	functionExecuter := cacheutil.NewCacheKeyFunctionExecuter(branch, stackrev)
+	keyParser := cacheutil.NewKeyParser(&functionExecuter)
 	return keyParser.Parse(cacheKey)
 }
 

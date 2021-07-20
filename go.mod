@@ -3,6 +3,7 @@ module github.com/alephao/bitrise-step-s3-cache-push
 go 1.15
 
 require (
+	github.com/alephao/cacheutil v0.0.0-20210720172116-c86dd48ffdbd
 	github.com/aws/aws-sdk-go v1.38.21
 	github.com/dsnet/compress v0.0.1 // indirect
 	github.com/frankban/quicktest v1.11.3 // indirect

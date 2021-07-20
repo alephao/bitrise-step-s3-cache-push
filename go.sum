@@ -1,3 +1,5 @@
+github.com/alephao/cacheutil v0.0.0-20210720172116-c86dd48ffdbd h1:sy012OU9Tb/QUz8318Ps6x+uS38+fAWO1nAnBI4ffH0=
+github.com/alephao/cacheutil v0.0.0-20210720172116-c86dd48ffdbd/go.mod h1:0LeMvXQFEr7D+N4nS6JzRzU11AAoE27s1ndP37md3GE=
 github.com/aws/aws-sdk-go v1.38.21 h1:D08DXWI4QRaawLaW+OtsIEClOI90I6eheJs1GwXTQVI=
 github.com/aws/aws-sdk-go v1.38.21/go.mod h1:hcU610XS61/+aQV88ixoOzUoG7v3b31pl2zKMmprdro=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
